@@ -13,6 +13,65 @@ html, body, #root {
 
   display: flex;
   align-items: center;
+
+  position: relative;
+
+  > .timer {
+    position: absolute;
+    padding: 30px;
+    color: $light;
+
+    left:0;
+    right:0;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 0;
+    margin-bottom: -120px;
+
+    width: 700px;
+    height: 240px;
+    background-color: $primary;
+    border-radius: 50px;
+
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    > .title {
+      font-size: 24px;
+    }
+
+    > .cells {
+      display: grid;
+      grid-template-columns: 25% 25% 25% 25%;
+      grid-template-rows: auto;
+
+      //display: flex;
+      //justify-content: space-between;
+      margin-left: 80px;
+      margin-right: 80px;
+
+      > div {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        > .number {
+          font-size: 64px;
+          font-weight: 700;
+          line-height: 64px;
+          margin-bottom: 18px;
+        }
+
+        > .title {
+          font-size: 32px;
+          line-height: 32px;
+        }
+      }
+    }
+  }
 }
 
 .first-screen_title {
