@@ -107,10 +107,6 @@ html, body, #root {
     margin-bottom: 50px;
   }
 
-  > .gender-container {
-    margin-bottom: 50px;
-  }
-
   .gender {
     display: flex;
     justify-content: center;
@@ -118,6 +114,7 @@ html, body, #root {
     background-color: $white;
     padding: 30px;
     border-radius: $border-radius;
+    margin-bottom: 50px;
 
     > .title {
       margin-left: 30px;
@@ -133,6 +130,11 @@ html, body, #root {
   }
 
   hr {
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 50px;
+  }
+
+  > .chart {
+
   }
 }

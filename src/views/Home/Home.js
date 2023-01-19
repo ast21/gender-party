@@ -1,5 +1,28 @@
 import {Col, Container, Form, Row} from "react-bootstrap";
 import {ReactComponent as Bear} from "./../../images/bear.svg";
+import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
+import { Pie } from "react-chartjs-2";
+
+ChartJS.register(ArcElement, Tooltip);
+
+const data = {
+  labels: ['Мальчик', 'Девочка'],
+  datasets: [
+    {
+      label: '# Ответы',
+      data: [19, 2],
+      backgroundColor: [
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+      ],
+      borderColor: [
+        'rgba(54, 162, 235, 1)',
+        'rgba(153, 102, 255, 1)',
+      ],
+      borderWidth: 1,
+    },
+  ],
+};
 
 function Home() {
   return (
@@ -55,6 +78,15 @@ function Home() {
             </Col>
           </Row>
           <hr/>
+
+          <Row>
+            <Col md={4}>
+              <Pie data={data}/>
+            </Col>
+            <Col md={8}>
+              <div>This table</div>
+            </Col>
+          </Row>
         </div>
       </Container>
     </>
