@@ -23,13 +23,26 @@ $green: #28a745;
 $teal: #20c997;
 $cyan: #17a2b8;
 
-$primary:       #CC8DFF;
-$secondary:     #5663F6;
-$success:       $green;
-$info:          $cyan;
-$warning:       $yellow;
-$danger:        $red;
-$light:         $gray-100;
-$dark:          $gray-900;
+$primary: #CC8DFF;
+$secondary: #5663F6;
+$success: $green;
+$info: $cyan;
+$warning: $yellow;
+$danger: $red;
+$light: $gray-100;
+$dark: $gray-900;
 
 $font-family-base: 'Ubuntu';
+$headings-font-weight: 700;
+
+// scss-docs-start border-radius-variables
+$border-radius: 20px;
+$border-radius-sm: $border-radius;
+$border-radius-lg: $border-radius;
+$border-radius-xl: $border-radius;
+$border-radius-2xl: $border-radius;
+$border-radius-pill: $border-radius;
+
+$input-height: 85px;
+$input-height-sm: $input-height;
+$input-height-lg: $input-height;

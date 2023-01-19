@@ -97,3 +97,42 @@ html, body, #root {
     color: $dark;
   }
 }
+
+.voting {
+  background-color: #EDEAEE;
+  padding: 50px;
+  border-radius: 50px;
+
+  > h1 {
+    margin-bottom: 50px;
+  }
+
+  > .gender-container {
+    margin-bottom: 50px;
+  }
+
+  .gender {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $white;
+    padding: 30px;
+    border-radius: $border-radius;
+
+    > .title {
+      margin-left: 30px;
+    }
+  }
+
+  .male {
+    color: $secondary;
+  }
+
+  .female {
+    color: $primary;
+  }
+
+  hr {
+    margin: 0;
+  }
+}

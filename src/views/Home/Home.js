@@ -1,3 +1,6 @@
+import {Col, Container, Form, Row} from "react-bootstrap";
+import {ReactComponent as Bear} from "./../../images/bear.svg";
+
 function Home() {
   return (
     <>
@@ -30,6 +33,30 @@ function Home() {
           </div>
         </div>
       </div>
+
+      <Container style={{padding: '150px'}}>
+        <div className="voting">
+          <h1>Голосование</h1>
+          <Form.Group className="mb-4" controlId="inputName">
+            <Form.Control type="text" size="lg" placeholder="Введите имя и фамилию"/>
+          </Form.Group>
+          <Row className="gender-container">
+            <Col>
+              <div className="gender male">
+                <Bear fill="#5663F6"/>
+                <h1 className="title">Мальчик</h1>
+              </div>
+            </Col>
+            <Col>
+              <div className="gender female">
+                <Bear fill="#CC8DFF"/>
+                <h1 className="title">Девочка</h1>
+              </div>
+            </Col>
+          </Row>
+          <hr/>
+        </div>
+      </Container>
     </>
   );
 }
