@@ -1,7 +1,9 @@
-import {Col, Container, Form, Row} from "react-bootstrap";
+import {Col, Container, Form, Row, Table} from "react-bootstrap";
 import {ReactComponent as Bear} from "./../../images/bear.svg";
-import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
-import { Pie } from "react-chartjs-2";
+import {Chart as ChartJS, ArcElement, Tooltip} from "chart.js";
+import {Pie} from "react-chartjs-2";
+import {useEffect, useState} from "react";
+import API from "../../api";
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -25,6 +27,17 @@ const data = {
 };
 
 function Home() {
+  const [votes, setVotes] = useState([]);
+
+  useEffect(() => {
+    API
+      .get(`/gp/votes`)
+      .then(({ data }) => setVotes(data))
+      .catch((error) => {
+        console.error('get votes:', error);
+      });
+  }, []);
+
   return (
     <>
       <div className="first-screen">
@@ -83,8 +96,19 @@ function Home() {
             <Col md={4}>
               <Pie data={data}/>
             </Col>
+
             <Col md={8}>
-              <div>This table</div>
+              <Table striped bordered hover>
+                <tbody>
+                  {votes.map((val) => {
+                    return <tr key={val.id}>
+                      <td>{val.id}</td>
+                      <td>{val.name}</td>
+                      <td>{val.gender}</td>
+                    </tr>;
+                  })}
+                </tbody>
+              </Table>
             </Col>
           </Row>
         </div>
