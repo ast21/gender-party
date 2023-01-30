@@ -7,27 +7,34 @@ import API from "../../api";
 
 ChartJS.register(ArcElement, Tooltip);
 
-const data = {
-  labels: ['Мальчик', 'Девочка'],
-  datasets: [
-    {
-      label: '# Ответы',
-      data: [19, 2],
-      backgroundColor: [
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-      ],
-      borderColor: [
-        'rgba(54, 162, 235, 1)',
-        'rgba(153, 102, 255, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
+function hexToRGB(hex, alpha) {
+  let
+    r = parseInt(hex.slice(1, 3), 16),
+    g = parseInt(hex.slice(3, 5), 16),
+    b = parseInt(hex.slice(5, 7), 16);
+
+  if (alpha) {
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  } else {
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+}
 
 function Home() {
   const [votes, setVotes] = useState([]);
+  const [genders, setGenders] = useState([]);
+  const data = {
+    labels: genders.map((val) => val.name),
+    datasets: [
+      {
+        label: '# Ответы',
+        data: genders.map((val) => val.votes_count),
+        backgroundColor: genders.map((val) => hexToRGB(val.color, 1)),
+        // borderColor: genders.map((val) => hexToRGB(val.color)),
+        // borderWidth: 1,
+      },
+    ],
+  };
 
   useEffect(() => {
     API
@@ -35,6 +42,12 @@ function Home() {
       .then(({ data }) => setVotes(data))
       .catch((error) => {
         console.error('get votes:', error);
+      });
+    API
+      .get('/gp/genders')
+      .then(({ data }) => setGenders(data))
+      .catch((error) => {
+        console.error('get genders:', error);
       });
   }, []);
 
