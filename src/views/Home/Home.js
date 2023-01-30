@@ -1,4 +1,4 @@
-import {Col, Container, Form, Row, Table} from "react-bootstrap";
+import {Button, Col, Container, Form, Row, Table} from "react-bootstrap";
 import {ReactComponent as Bear} from "./../../images/bear.svg";
 import {Chart as ChartJS, ArcElement, Tooltip} from "chart.js";
 import {Pie} from "react-chartjs-2";
@@ -21,35 +21,71 @@ function hexToRGB(hex, alpha) {
 }
 
 function Home() {
-  const [votes, setVotes] = useState([]);
-  const [genders, setGenders] = useState([]);
+  const [voteData, setVoteData] = useState([]);
+  const [genderData, setGenderData] = useState([]);
+  const [form, setForm] = useState({
+    name: null,
+    gender_id: null,
+  });
+
   const data = {
-    labels: genders.map((val) => val.name),
+    labels: genderData.map((val) => val.name),
     datasets: [
       {
         label: '# Ответы',
-        data: genders.map((val) => val.votes_count),
-        backgroundColor: genders.map((val) => hexToRGB(val.color, 1)),
-        // borderColor: genders.map((val) => hexToRGB(val.color)),
-        // borderWidth: 1,
+        data: genderData.map((val) => val.votes_count),
+        backgroundColor: genderData.map((val) => hexToRGB(val.color, 1)),
+        // borderColor: genderData.map((val) => hexToRGB(val.color)),
+        borderWidth: 0,
       },
     ],
   };
 
   useEffect(() => {
+    getVotes();
+    getGenders();
+  }, []);
+
+  function getVotes() {
     API
       .get(`/gp/votes`)
-      .then(({ data }) => setVotes(data))
+      .then(({ data }) => setVoteData(data))
       .catch((error) => {
         console.error('get votes:', error);
       });
+  }
+  function getGenders() {
     API
       .get('/gp/genders')
-      .then(({ data }) => setGenders(data))
+      .then(({ data }) => setGenderData(data))
       .catch((error) => {
         console.error('get genders:', error);
       });
-  }, []);
+  }
+
+  function setNameToForm(e) {
+    setForm((prevState) => {
+      return {...prevState, name: e.target.value}
+    });
+  }
+
+  function setGenderIdToForm(id) {
+    setForm((prevState) => {
+      return {...prevState, gender_id: id}
+    });
+  }
+
+  function sendVote() {
+    API
+      .post('/gp/votes', form)
+      .then(() => {
+        getVotes()
+        getGenders()
+      })
+      .catch((error) => {
+        console.error('post votes:', error);
+      });
+  }
 
   return (
     <>
@@ -84,25 +120,29 @@ function Home() {
       </div>
 
       <Container style={{padding: '150px'}}>
+        <h3 className="mb-5 mt-5">
+          Мы понимаем что не все смогут присутствовать в такой знаменательный день,
+          поэтому нам пришла идея создать сайт для того чтобы вы тоже смогли участвовать в Гендер-Пати!
+        </h3>
+
         <div className="voting">
           <h1>Голосование</h1>
           <Form.Group className="mb-4" controlId="inputName">
-            <Form.Control type="text" size="lg" placeholder="Введите имя и фамилию"/>
+            <Form.Control type="text" size="lg" placeholder="Введите имя и фамилию" onChange={(e) => setNameToForm(e)}/>
           </Form.Group>
           <Row className="gender-container">
-            <Col>
-              <div className="gender male">
-                <Bear fill="#5663F6"/>
-                <h1 className="title">Мальчик</h1>
-              </div>
-            </Col>
-            <Col>
-              <div className="gender female">
-                <Bear fill="#CC8DFF"/>
-                <h1 className="title">Девочка</h1>
-              </div>
-            </Col>
+            {genderData.map((val) => (
+              <Col key={val.id}>
+                <div className={`gender ${val.code}`} onClick={() => setGenderIdToForm(val.id)}>
+                  <Bear fill={val.color}/>
+                  <h1 className="title">{val.name}</h1>
+                </div>
+              </Col>
+            ))}
           </Row>
+          <Button className="mb-5" onClick={() => sendVote()}>
+            Отправить
+          </Button>
           <hr/>
 
           <Row>
@@ -113,7 +153,7 @@ function Home() {
             <Col md={8}>
               <Table striped bordered hover>
                 <tbody>
-                  {votes.map((val) => {
+                  {voteData.map((val) => {
                     return <tr key={val.id}>
                       <td>{val.id}</td>
                       <td>{val.name}</td>
